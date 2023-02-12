@@ -4,7 +4,7 @@ require_once('../../db/dbhelper.php');
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Quản Lý Danh Mục</title>
+	<title>Quản Lý Sản Phẩm</title>
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 
@@ -20,26 +20,30 @@ require_once('../../db/dbhelper.php');
 <body>
     <ul class="nav nav-tabs">
         <li class="nav-item">
-            <a class="nav-link active" href="#">Quản Lý Danh Mục</a>
+            <a class="nav-link" href="../caterogy/">Quản Lý Danh Mục</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="../product/">Quản Lý Sản Phẩm</a>
+            <a class="nav-link active" href="#">Quản Lý Sản Phẩm</a>
         </li>
     </ul>
 	<div class="container">
 		<div class="panel panel-primary">
 			<div class="panel-heading">
-				<h2 class="text-center">Quản Lý Danh Mục</h2>
+				<h2 class="text-center">Quản Lý Sản Phẩm</h2>
 			</div>
 			<div class="panel-body">
                 <a href="add.php">
-                     <button class="btn btn-success mb-4">Thêm Danh Mục</button>
+                     <button class="btn btn-success mb-4">Thêm Sản Phẩm</button>
                 </a>
                 <table class="table table-bordered table-hover">
                     <thead>
                         <tr>
                             <th width="50px">STT</th>
-                            <th>Tên Danh Mục</th>
+                            <th>Hình Ảnh</th>
+                            <th>Tên Sản Phẩm</th>
+                            <th>Giá bán</th>
+                            <th>Danh Mục</th>
+                            <th>Ngày Cập Nhật</th>
                             <th width="50px"></th>
                             <th width="50px"></th>
                         </tr>
@@ -47,20 +51,24 @@ require_once('../../db/dbhelper.php');
                     <tbody>
 <?php 
 //lay danh sach danh muc tu database
-$sql = 'select * from category';
-$categoryList = executeResult($sql);
+$sql = 'select product.id, product.title, product.price, product.thumbnail,product.updated_at,category.name category_name from product left join category on product.id_category = category.id';
+$productList = executeResult($sql);
 
 $index = 1;
-foreach ($categoryList as $item){
+foreach ($productList as $item){
     echo '
     <tr>
         <td>'.($index++).'</td>
-        <td>'.$item['name'].'</td>
+        <td><img src="'.$item['thumbnail'].'" style="max-width: 100px;"/></td>
+        <td>'.$item['title'].'</td>
+        <td>'.$item['price'].'</td>
+        <td>'.$item['category_name'].'</td>
+        <td>'.$item['updated_at'].'</td>
         <td>
             <a href="add.php?id='.$item['id'].'"><button class="btn btn-warning">Sửa</button></a>
         </td>
         <td>
-            <button class="btn btn-danger" onclick="deleteCategory('.$item['id'].')">Xóa</button>
+            <button class="btn btn-danger" onclick="deleteProduct('.$item['id'].')">Xóa</button>
         </td>
     </tr>';
 }
@@ -72,8 +80,8 @@ foreach ($categoryList as $item){
 	</div>
 
     <script type="text/javascript">
-        function deleteCategory(id){
-            var option = confirm('Bạn có chắc chắn muốn xóa danh mục này không?');
+        function deleteProduct(id){
+            var option = confirm('Bạn có chắc chắn muốn xóa sản phẩm này không?');
             if(!option) return;
             $.post('ajax.php',{
                 'id': id,

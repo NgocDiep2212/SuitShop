@@ -62,7 +62,7 @@ if(isset($_GET['id'])){
 	<div class="container">
 		<div class="panel panel-primary">
 			<div class="panel-heading">
-				<h2 class="text-center">Them/Sua Danh Mục</h2>
+				<h2 class="text-center">Thêm/Sửa Danh Mục</h2>
 			</div>
 			<div class="panel-body">
                 <form action="" method="post">
