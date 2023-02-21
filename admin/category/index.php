@@ -1,5 +1,6 @@
 <?php 
 require_once('../../db/dbhelper.php');
+require_once('../../common/utility.php');
 ?>
 <!DOCTYPE html>
 <html>
@@ -31,10 +32,23 @@ require_once('../../db/dbhelper.php');
 			<div class="panel-heading">
 				<h2 class="text-center">Quản Lý Danh Mục</h2>
 			</div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <a href="add.php">
+                         <button class="btn btn-success mb-4">Thêm Danh Mục</button>
+                        </a>
+                    </div>
+                    <div class="col-lg-6">
+                        <form action="" method="get">
+                            <div class="form-group" style="width: 200px; float:right;">
+                                <input type="text" class="form-control" id="search" name="search" placeholder="Searching...">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
 			<div class="panel-body">
-                <a href="add.php">
-                     <button class="btn btn-success mb-4">Thêm Danh Mục</button>
-                </a>
                 <table class="table table-bordered table-hover">
                     <thead>
                         <tr>
@@ -47,14 +61,41 @@ require_once('../../db/dbhelper.php');
                     <tbody>
 <?php 
 //lay danh sach danh muc tu database
-$sql = 'select * from category';
+$limit = 5;
+$page = 1;
+if(isset($_GET['page'])){
+    $page = $_GET['page'];
+}
+if($page <= 0){
+    $page = 1;
+}
+$firstIndex = ($page-1)*$limit;
+
+$search = '';
+if(isset($_GET['search'])){
+    $search = $_GET['search'];
+}
+//trang can lay san pham. so phan tu tren 1 trang: $limit
+$additional = '';
+
+if(!empty($search)){
+    $additional = 'and name like "%'.$search.'%"';
+}
+
+$sql = 'select * from category where 1 '.$additional.' limit '.$firstIndex.', '.$limit;
 $categoryList = executeResult($sql);
 
-$index = 1;
+$sql = 'select count(id) as total from category where 1 '.$additional;
+$countResult = executeSingleResult($sql);
+$number = 0;
+if($countResult != null){
+    $count = $countResult['total'];
+    $number = ceil($count/$limit);
+}
 foreach ($categoryList as $item){
     echo '
     <tr>
-        <td>'.($index++).'</td>
+        <td>'.(++$firstIndex).'</td>
         <td>'.$item['name'].'</td>
         <td>
             <a href="add.php?id='.$item['id'].'"><button class="btn btn-warning">Sửa</button></a>
@@ -67,6 +108,8 @@ foreach ($categoryList as $item){
 ?>
                     </tbody>
                 </table>
+        <!-- Bai toan phan trang -->
+        <?=paginarion($number, $page, '&search='.$search)?>
             </div>
 		</div>
 	</div>

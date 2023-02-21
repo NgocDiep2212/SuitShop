@@ -1,43 +1,47 @@
- <?php
- require_once('config.php');
- function execute($sql){
-    //save data into table
-    //open connection to database
-    $con = mysqli_connect(HOST, USERNAME, PASSWORD, DATABASE);
-    //insert, update, delete
-    mysqli_query($con,$sql);
+<?php
+require_once ('config.php');
 
-    //close connection
-    mysqli_close($con);
- }
+function execute($sql) {
+	//save data into table
+	// open connection to database
+	$con = mysqli_connect(HOST, USERNAME, PASSWORD, DATABASE);
+	//insert, update, delete
+	mysqli_query($con, $sql);
 
- function executeResult($sql){
-    //save data into table
-    //open connection to database
-    $con = mysqli_connect(HOST, USERNAME, PASSWORD, DATABASE);
-    //insert, update, delete
-    $result = mysqli_query($con, $sql);
-    $data = [];
-    while ($row = mysqli_fetch_array($result,1)){
-        $data[] = $row;
-    }
+	//close connection
+	mysqli_close($con);
+}
 
-    //close connection
-    mysqli_close($con);
+function executeResult($sql) {
+	//save data into table
+	// open connection to database
+	$con = mysqli_connect(HOST, USERNAME, PASSWORD, DATABASE);
+	//insert, update, delete
+	$result = mysqli_query($con, $sql);
+	$data   = [];
+	while ($row = mysqli_fetch_array($result, 1)) {
+		$data[] = $row;
+	}
 
-    return $data;
- }
+	//close connection
+	mysqli_close($con);
 
- function executeSingleResult($sql){
-    //save data into table
-    //open connection to database
-    $con = mysqli_connect(HOST, USERNAME, PASSWORD, DATABASE);
-    //insert, update, delete
-    $result = mysqli_query($con, $sql);
-    $row = mysqli_fetch_array($result,1);
+	return $data;
+}
 
-    //close connection
-    mysqli_close($con);
+function executeSingleResult($sql) {
+	//save data into table
+	// open connection to database
+	$con = mysqli_connect(HOST, USERNAME, PASSWORD, DATABASE);
+	//insert, update, delete
+	$result = mysqli_query($con, $sql);
+   $row = null;
+   if($result != null){
+      $row    = mysqli_fetch_array($result, 1);
+   }
 
-    return $row;
- }
+	//close connection
+	mysqli_close($con);
+
+	return $row;
+}

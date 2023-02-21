@@ -1,5 +1,6 @@
 <?php 
 require_once('../../db/dbhelper.php');
+require_once('../../common/utility.php');
 ?>
 <!DOCTYPE html>
 <html>
@@ -20,7 +21,7 @@ require_once('../../db/dbhelper.php');
 <body>
     <ul class="nav nav-tabs">
         <li class="nav-item">
-            <a class="nav-link" href="../caterogy/">Quản Lý Danh Mục</a>
+            <a class="nav-link" href="../category/">Quản Lý Danh Mục</a>
         </li>
         <li class="nav-item">
             <a class="nav-link active" href="#">Quản Lý Sản Phẩm</a>
@@ -32,9 +33,22 @@ require_once('../../db/dbhelper.php');
 				<h2 class="text-center">Quản Lý Sản Phẩm</h2>
 			</div>
 			<div class="panel-body">
-                <a href="add.php">
-                     <button class="btn btn-success mb-4">Thêm Sản Phẩm</button>
-                </a>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <a href="add.php">
+                            <button class="btn btn-success mb-4">Thêm Sản Phẩm</button>
+                        </a>
+                    </div>
+                    <div class="col-lg-6">
+                        <form action="" method="get">
+                            <div class="form-group" style="width: 200px; float:right;">
+                                <input type="text" class="form-control" id="search" name="search" placeholder="Searching...">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+               
                 <table class="table table-bordered table-hover">
                     <thead>
                         <tr>
@@ -51,14 +65,41 @@ require_once('../../db/dbhelper.php');
                     <tbody>
 <?php 
 //lay danh sach danh muc tu database
-$sql = 'select product.id, product.title, product.price, product.thumbnail,product.updated_at,category.name category_name from product left join category on product.id_category = category.id';
+$limit = 1;
+$page = 1;
+if(isset($_GET['page'])){
+    $page = $_GET['page'];
+}
+if($page <= 0){
+    $page = 1;
+}
+
+$firstIndex = ($page-1)*$limit;
+$search = '';
+if(isset($_GET['search'])){
+    $search = $_GET['search'];
+}
+$additional = '';
+
+if(!empty($search)){
+    $additional = 'and title like "%'.$search.'%"';
+}
+
+$sql = 'select product.id, product.title, product.price, product.thumbnail,product.updated_at,category.name category_name from product left join category on product.id_category = category.id '.$additional.' limit '.$firstIndex.', '.$limit;
 $productList = executeResult($sql);
 
-$index = 1;
+$sql = 'select count(id) as total from product where 1 '.$additional;
+$countResult = executeSingleResult($sql);
+$number = 0;
+if($countResult != null){
+    $count = $countResult['total'];
+    $number = ceil($count/$limit);
+}
+
 foreach ($productList as $item){
     echo '
     <tr>
-        <td>'.($index++).'</td>
+        <td>'.(++$firstIndex).'</td>
         <td><img src="'.$item['thumbnail'].'" style="max-width: 100px;"/></td>
         <td>'.$item['title'].'</td>
         <td>'.$item['price'].'</td>
@@ -75,6 +116,8 @@ foreach ($productList as $item){
 ?>
                     </tbody>
                 </table>
+<!-- Bai toan phan trang -->
+<?=paginarion($number, $page, '')?>
             </div>
 		</div>
 	</div>
