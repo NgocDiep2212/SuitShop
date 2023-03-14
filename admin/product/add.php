@@ -92,6 +92,12 @@ if(isset($_GET['id'])){
         <li class="nav-item">
             <a class="nav-link" href="index.php">Quản Lý Sản Phẩm</a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="../user/">Quản Lý Người Dùng</a>
+        </li>
+        <li class="nav-item">
+             <a class="nav-link" onclick="exituser();" href="#">Thoát</a>
+        </li>
     </ul>
 	<div class="container">
 		<div class="panel panel-primary">
@@ -101,12 +107,12 @@ if(isset($_GET['id'])){
 			<div class="panel-body">
                 <form action="" method="post">
                     <div class="form-group">
-                        <label for="name">Tên Sản Phẩm:</label>
+                        <label for="title">Tên Sản Phẩm:</label>
                         <input type="text" name="id" value="<?=$id?>" hidden="true">
                         <input required="true" type="text" class="form-control" id="title" name="title" value="<?=$title?>">
                         </div>
                     <div class="form-group">
-                        <label for="price">Chọn Danh Mục</label>
+                        <label for="id_category">Chọn Danh Mục</label>
                         <select class="form-control" name="id_category" id="id_category">
                             <option value="">--Lựa chọn danh mục --</option>
 <?php
@@ -158,6 +164,16 @@ foreach ($categoryList as $item){
                 }
             });
         })
+
+        function exituser(){
+            var option = confirm('Bạn có chắc chắn muốn đăng xuất không?');
+                if(!option) return;
+                $.post('ajax.php',{
+                    'action': 'delete'
+                },function(data){
+                    location.href = "../user/login.php";
+                })
+       }
     </script>
 </body>
 </html>

@@ -1,0 +1,29 @@
+
+/* header */
+
+.header{
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.navbar-brand img{
+    width: 160px;
+}
+
+.banner{
+    width: -webkit-fill-available;
+}
+
+/* main */
+.product-item:hover{
+    background-color: #bababa58;
+}
+.product-item a{
+    text-decoration: none;
+    color: #000;
+}
+
+.list-product{
+    margin: 20px 40px;
+    padding: 0;
+}

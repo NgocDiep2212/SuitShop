@@ -4,9 +4,11 @@ if(!empty($_POST)){
     $id = $name = '';
     if(isset($_POST['name'])){
         $name = $_POST['name'];
+        $name = str_replace('"', '\\"',$name);
     }
     if(isset($_POST['id'])){
         $id = $_POST['id'];
+        $id = str_replace('"', '\\"',$id);
     }
 
     if(!empty($name)){
@@ -37,7 +39,7 @@ if(isset($_GET['id'])){
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Them/Sua Danh Mục</title>
+	<title>Thêm/Sửa Danh Mục</title>
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 
@@ -58,6 +60,12 @@ if(isset($_GET['id'])){
         <li class="nav-item">
             <a class="nav-link" href="../product/">Quản Lý Sản Phẩm</a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="../user/">Quản Lý Người Dùng</a>
+        </li>
+        <li class="nav-item">
+             <a class="nav-link" onclick="exituser();" href="#">Thoát</a>
+        </li>
     </ul>
 	<div class="container">
 		<div class="panel panel-primary">
@@ -67,15 +75,28 @@ if(isset($_GET['id'])){
 			<div class="panel-body">
                 <form action="" method="post">
                     <div class="form-group">
-                        <label for="name">Ten Danh Muc:</label>
-                        <input type="text" name="id" value="<?=$id?>" hidden="true">
-                        <input required="true" type="text" class="form-control" id="name" name="name" value="<?=$name?>">
+                            <label for="name">Tên Danh Mục:</label>
+                            <input type="text" name="id" value="<?=$id?>" hidden="true">
+                            <input required="true" type="text" class="form-control" id="name" name="name" value="<?=$name?>">
                         </div>
                         
-                        <button class="btn btn-success">Luu</button>
+                        <button class="btn btn-success">Lưu</button>
                 </form>
             </div>
 		</div>
 	</div>
+
+
+    <script>
+        function exituser(){
+        var option = confirm('Bạn có chắc chắn muốn đăng xuất không?');
+            if(!option) return;
+            $.post('ajax.php',{
+                'action': 'delete'
+            },function(data){
+                location.href = "../user/login.php";
+            })
+       }
+    </script>
 </body>
 </html>

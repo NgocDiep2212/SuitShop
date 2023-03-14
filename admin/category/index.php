@@ -1,6 +1,11 @@
 <?php 
 require_once('../../db/dbhelper.php');
 require_once('../../common/utility.php');
+
+    session_start();
+    ob_start();
+    if(!isset($_SESSION['role']) || ($_SESSION['role'] == 0))  header('location: ../user/login.php');
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -25,6 +30,12 @@ require_once('../../common/utility.php');
         </li>
         <li class="nav-item">
             <a class="nav-link" href="../product/">Quản Lý Sản Phẩm</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="../user/">Quản Lý Người Dùng</a>
+        </li>
+        <li class="nav-item">
+                <a class="nav-link" onclick="exituser();" href="#">Thoát</a>
         </li>
     </ul>
 	<div class="container">
@@ -105,6 +116,7 @@ foreach ($categoryList as $item){
         </td>
     </tr>';
 }
+
 ?>
                     </tbody>
                 </table>
@@ -125,6 +137,15 @@ foreach ($categoryList as $item){
                 location.reload()
             })
         }
+        function exituser(){
+        var option = confirm('Bạn có chắc chắn muốn đăng xuất không?');
+            if(!option) return;
+            $.post('ajax.php',{
+                'action': 'delete'
+            },function(data){
+                location.href = "../user/login.php";
+            })
+       }
     </script>
 
 </body>
