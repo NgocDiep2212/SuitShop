@@ -1,7 +1,7 @@
 
 <?php 
-session_start();
 ob_start();
+session_start();
 require_once('../../db/dbhelper.php');
     $username = $password = '';
     if(!empty($_POST)){
@@ -18,8 +18,8 @@ require_once('../../db/dbhelper.php');
         if(isset($sql) && isset($user['role'])){
             $role = $user['role'];
             $_SESSION['role'] = $role;
-            $id = $user['id'];
-            if(isset($id)) $_SESSION['id'] = $id;
+            $id_user = $user['id'];
+            if(isset($id_user)) $_SESSION['id_user'] = $id_user;
             if($role == 0){
                 header('location: ../../frontend/');
             }else if($role == 1){

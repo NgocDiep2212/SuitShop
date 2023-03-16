@@ -22,6 +22,7 @@ require_once('../../common/utility.php');
 
 	<!-- Latest compiled JavaScript -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script src="../../common/action.js"></script>
 </head>
 <body>
     <ul class="nav nav-tabs">
@@ -33,6 +34,9 @@ require_once('../../common/utility.php');
         </li>
         <li class="nav-item">
             <a class="nav-link" href="../user/">Quản Lý Người Dùng</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="../order/">Quản Lý Đơn Hàng</a>
         </li>
         <li class="nav-item">
                 <a class="nav-link" onclick="exituser();" href="#">Thoát</a>
@@ -133,27 +137,6 @@ foreach ($productList as $item){
 		</div>
 	</div>
 
-    <script type="text/javascript">
-        function deleteProduct(id){
-            var option = confirm('Bạn có chắc chắn muốn xóa sản phẩm này không?');
-            if(!option) return;
-            $.post('ajax.php',{
-                'id': id,
-                'action': 'delete'
-            },function(data){
-                location.reload()
-            })
-        }
-        function exituser(){
-        var option = confirm('Bạn có chắc chắn muốn đăng xuất không?');
-            if(!option) return;
-            $.post('ajax.php',{
-                'action': 'delete'
-            },function(data){
-                location.href = "../user/login.php";
-            })
-       }
-    </script>
 
 </body>
 </html>

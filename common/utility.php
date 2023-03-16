@@ -1,3 +1,4 @@
+
 <?php
 
 function paginarion($number, $page, $addition){

@@ -5,7 +5,7 @@ require_once('../../db/dbhelper.php');
     ob_start();
     if(!isset($_SESSION['role']) &&($_SESSION['role'] != 1)) header('location: ./user/login.php');;
 
-$id = $name = $username = $password = $address = $email = $role = '';
+$id = $name = $username = $password = $address = $email = $role = $SDT ='';
 if(!empty($_POST)){
     if(isset($_POST['username'])){
         $username = $_POST['username'];
@@ -31,6 +31,10 @@ if(!empty($_POST)){
         $address = $_POST['address'];
         $address = str_replace('"', '\\"',$address);
     }
+    if(isset($_POST['SDT'])){
+        $SDT = $_POST['SDT'];
+        $SDT = str_replace('"', '\\"',$SDT);
+    }
     if(isset($_POST['email'])){
         $email = $_POST['email'];
         $email = str_replace('"', '\\"',$email);
@@ -39,18 +43,19 @@ if(!empty($_POST)){
     if(!empty($username)){
         $created_at = $updated_at = date('Y-m-d H:s:i');
         if($id == ''){
-            $sql = 'insert into user(username,name, password, role, address, email, created_at, updated_at) values 
+            $sql = 'insert into user(username,name, password, role, address, email, SDT, created_at, updated_at) values 
             ("'.$username.'",
-            ("'.$name.'",
+            "'.$name.'",
             "'.$password.'",
             "'.$role.'", 
             "'.$address.'", 
             "'.$email.'",
+            "'.$SDT.'",
             "'.$created_at.'", 
             "'.$updated_at.'"
             )';
         }else{
-            $sql = 'update user set username ="'.$username.'",name ="'.$name.'", updated_at = "'.$updated_at.'", created_at = "'.$created_at.'", password = "'.$password.'", role = "'.$role.'", address = "'.$address.'", email = "'.$email.'" where id = '.$id;
+            $sql = 'update user set username ="'.$username.'",name ="'.$name.'", updated_at = "'.$updated_at.'", created_at = "'.$created_at.'", password = "'.$password.'", role = "'.$role.'", address = "'.$address.'", SDT = "'.$SDT.'", email = "'.$email.'" where id = '.$id;
         }
         
         execute($sql); 
@@ -72,6 +77,7 @@ if(isset($_GET['id'])){
         $password = $user['password'];
         $email = $user['email'];
         $address = $user['address'];
+        $SDT = $user['SDT'];
     }
 }
 ?>
@@ -94,6 +100,7 @@ if(isset($_GET['id'])){
     <!-- include summernote css/js -->
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+    <script src="../../common/action.js"></script>
 </head>
 <body>
     <ul class="nav nav-tabs">
@@ -164,24 +171,17 @@ foreach ($userList as $item){
                         <input type="text" name="email" value="<?=$email?>" hidden="true">
                         <input required="true" type="text" class="form-control" id="email" name="email" value="<?=$email?>">
                     </div>
+                    <div class="form-group">
+                        <label for="SDT">Số điện thoại</label>
+                        <input type="text" name="SDT" value="<?=$SDT?>" hidden="true">
+                        <input required="true" type="text" class="form-control" id="SDT" name="SDT" value="<?=$SDT?>">
+                    </div>
                     
                         <button class="btn btn-success" type="submit">Lưu</button>
                 </form>
             </div>
 		</div>
 	</div>
-
-    <script>
-        function exituser(){
-        var option = confirm('Bạn có chắc chắn muốn đăng xuất không?');
-            if(!option) return;
-            $.post('ajax.php',{
-                'action': 'delete'
-            },function(data){
-                location.href = "login.php";
-            })
-       }
-    </script>
 
 </body>
 </html>

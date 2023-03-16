@@ -83,6 +83,7 @@ if(isset($_GET['id'])){
     <!-- include summernote css/js -->
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+    <script src="../../common/action.js"></script>
 </head>
 <body>
     <ul class="nav nav-tabs">
@@ -164,16 +165,6 @@ foreach ($categoryList as $item){
                 }
             });
         })
-
-        function exituser(){
-            var option = confirm('Bạn có chắc chắn muốn đăng xuất không?');
-                if(!option) return;
-                $.post('ajax.php',{
-                    'action': 'delete'
-                },function(data){
-                    location.href = "../user/login.php";
-                })
-       }
     </script>
 </body>
 </html>

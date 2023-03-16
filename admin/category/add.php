@@ -87,16 +87,5 @@ if(isset($_GET['id'])){
 	</div>
 
 
-    <script>
-        function exituser(){
-        var option = confirm('Bạn có chắc chắn muốn đăng xuất không?');
-            if(!option) return;
-            $.post('ajax.php',{
-                'action': 'delete'
-            },function(data){
-                location.href = "../user/login.php";
-            })
-       }
-    </script>
 </body>
 </html>

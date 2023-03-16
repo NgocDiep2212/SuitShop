@@ -21,7 +21,6 @@ require_once('../../common/utility.php');
 
 	<!-- Latest compiled JavaScript -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-    <script src="../../common/action.js"></script>
 </head>
 <body>
     <ul class="nav nav-tabs">
@@ -44,34 +43,23 @@ require_once('../../common/utility.php');
 	<div class="container">
 		<div class="panel panel-primary">
 			<div class="panel-heading">
-				<h2 class="text-center">Quản Lý Đơn Hàng</h2>
+				<h2 class="text-center">Chi Tiết Đơn Hàng</h2>
 			</div>
-            <div class="panel-body">
-                <div class="row">
-                    <div class="col-lg-6">
-                        
-                    </div>
-                    <div class="col-lg-6">
-                        <form action="" method="get">
-                            <div class="form-group" style="width: 200px; float:right;">
-                                <input type="text" class="form-control" id="search" name="search" placeholder="Searching...">
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
+            
 			<div class="panel-body">
                 <table class="table table-bordered table-hover">
                     <thead>
                         <tr>
                             <th width="50px">STT</th>
-                            <th>Tên Tài Khoản</th>
                             <th>Tên Khách Hàng</th>
-                            <th>Địa Chỉ</th>
-                            <th>Số Điện Thoại</th>
                             <th>Tên Sản Phẩm</th>
                             <th>Số Lượng</th>
-                            <th width="180px"></th>
+                            <th>Chiều Cao</th>
+                            <th>Cân Nặng</th>
+                            <th>Ngang Vai</th>
+                            <th>Vòng Ngực</th>
+                            <th>Vòng Eo</th>
+                            <th>Vòng Cổ</th>
                             <th width="50px"></th>
                             <th width="50px"></th>
                         </tr>
@@ -101,7 +89,7 @@ if(!empty($search)){
 }
 
 
-$sql = 'select user.name, user.username, user.email, user.address, user.SDT, customer.soluong, customer.name_product, customer.ID from user left join customer on customer.id_user = user.id where user.id = customer.id_user'.$additional.' limit '.$firstIndex.', '.$limit;
+$sql = 'select user.name, customer.soluong, customer.name_product, customer.ID, customer.cannang, customer.chieucao, customer.ngangvai, customer.vongnguc, customer.vongeo, customer.vongco from user left join customer on customer.id_user = user.id where user.id = customer.id_user'.$additional.' limit '.$firstIndex.', '.$limit;
 $customerList = executeResult($sql);
 
 
@@ -116,16 +104,16 @@ foreach ($customerList as $item){
     echo '
     <tr>
         <td>'.(++$firstIndex).'</td>
-        <td>'.$item['username'].'</td>
         <td>'.$item['name'].'</td>
-        <td>'.$item['address'].'</td>
-        <td>'.$item['SDT'].'</td>
         <td>'.$item['name_product'].'</td>
         <td>'.$item['soluong'].'</td>
+        <td>'.$item['chieucao'].'</td>
+        <td>'.$item['cannang'].'</td>
+        <td>'.$item['ngangvai'].'</td>
+        <td>'.$item['vongnguc'].'</td>
+        <td>'.$item['vongeo'].'</td>
+        <td>'.$item['vongco'].'</td>
 
-        <td>
-            <a href="detail.php?id='.$item['ID'].'"><button class="btn btn-info">Chi tiết đơn hàng</button></a>
-        </td>
         <td>
             <a href="add.php?id='.$item['ID'].'"><button class="btn btn-warning">Sửa</button></a>
         </td>
@@ -138,6 +126,8 @@ foreach ($customerList as $item){
 ?>
                     </tbody>
                 </table>
+                
+                <a href="index.php"><button class="btn btn-info" style="float: right;">Trở về</button></a>
         <!-- Bai toan phan trang -->
         <?=paginarion($number, $page, '&search='.$search)?>
             </div>

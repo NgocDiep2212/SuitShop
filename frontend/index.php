@@ -107,15 +107,14 @@ foreach ($productList as $item){
 </body>
 
     <script>
-       $(document).ready(function(){
-        function exituser(){
-        var option = confirm('Bạn có chắc chắn muốn đăng xuất không?');
-            if(!option) return;
-            $.post('ajax.php',{
-                'action': 'delete'
-            },function(data){
-                location.href = "../admin/user/login.php";
-            })
+            function exituser(){
+                var option = confirm('Bạn có chắc chắn muốn đăng xuất không?');
+                    if(!option) return;
+                    $.post('ajax.php',{
+                        'action': 'delete'
+                    },function(data){
+                        location.href = "../admin/user/login.php";
+                    })
        }
     </script>
 </html>

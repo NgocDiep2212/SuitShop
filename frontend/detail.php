@@ -1,10 +1,10 @@
 <?php 
 require_once('..//db/dbhelper.php');
-
+ob_start();
 session_start();
 
-    if(isset($_SESSION['id']) && ($_SESSION['id_user'] != null)){
-        $id_user = $_SESSION['id'];
+    if(isset($_SESSION['id_user']) && ($_SESSION['id_user'] != null)){
+        $id_user = $_SESSION['id_user'];
     }
 
 $id = '';
@@ -13,7 +13,7 @@ if(isset($_GET['id'])){
     $sql = 'select * from product where id = '.$id;
     $product = executeSingleResult($sql);
     
-$id = $chieucao = $cannang = $ngangvai = $vongnguc = $vongeo= $vongco = '';
+$id = $chieucao = $cannang = $ngangvai = $vongnguc = $vongeo= $vongco = $name_product = $soluong ='';
 if(!empty($_POST)){
     if(isset($_POST['chieucao'])){
         $chieucao = $_POST['chieucao'];
@@ -43,24 +43,34 @@ if(!empty($_POST)){
         $vongco = $_POST['vongco'];
         $vongco = str_replace('"', '\\"',$vongco);
     }
+    if(isset($_POST['name_product'])){
+        $name_product = $_POST['name_product'];
+        $name_product = str_replace('"', '\\"',$name_product);
+    }
+    if(isset($_POST['soluong'])){
+        $soluong = $_POST['soluong'];
+        $soluong = str_replace('"', '\\"',$soluong);
+    }
     
 
     if(!empty($id_user)){
         $created_at = $updated_at = date('Y-m-d H:s:i');
         if($id == ''){
-            $sql = 'insert into customer(id_user,chieucao, ngangvai, cannang, vongnguc, vongeo, vongco, created_at, updated_at) values 
+            $sql = 'insert into customer(id_user, name_product, chieucao, ngangvai, cannang, vongnguc, vongeo, vongco, soluong, created_at, updated_at) values 
             ("'.$id_user.'",
+            "'.$name_product.'",
             "'.$chieucao.'",
             "'.$ngangvai.'",
             "'.$cannang.'", 
             "'.$vongnguc.'", 
             "'.$vongeo.'",
             "'.$vongco.'",
+            "'.$soluong.'",
             "'.$created_at.'", 
             "'.$updated_at.'"
             )';
         }else{
-            $sql = 'update customer set chieucao ="'.$chieucao.'", updated_at = "'.$updated_at.'", ngangvai = "'.$ngangvai.'", cannang = "'.$cannang.'", vongnguc = "'.$vongnguc.'", vongeo = "'.$vongeo.'", id_user = "'.$id_user.'", vongco = "'.$vongco.'" where id = '.$id;
+            $sql = 'update customer set chieucao ="'.$chieucao.'", updated_at = "'.$updated_at.'", soluong = "'.$soluong.'", name_product = "'.$name_product.'", ngangvai = "'.$ngangvai.'", cannang = "'.$cannang.'", vongnguc = "'.$vongnguc.'", vongeo = "'.$vongeo.'", id_user = "'.$id_user.'", vongco = "'.$vongco.'" where id = '.$id;
         }
         
         execute($sql); 
@@ -70,6 +80,8 @@ if(!empty($_POST)){
 
 
 }
+
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -131,6 +143,9 @@ foreach ($categoryList as $item){
                         <li class="nav-item">
                             <a class="nav-link" href="#">Liên hệ</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="exituser()">Thoát</a>
+                        </li>
                     </ul>
                 </div>
         </div>                
@@ -140,7 +155,7 @@ foreach ($categoryList as $item){
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="./index.php">Trang chủ</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Sản phẩm</li>
+                    <li class="breadcrumb-item active" aria-current="page">Sản Phẩm</li>
                 </ol>
             </nav>
 	<div class="container">
@@ -155,31 +170,36 @@ foreach ($categoryList as $item){
 			<h5 class="price" id="price" style="font-weight: 600; font-size: 24px;"></h5>
 			<form method="post">
 			<div class="row">
+				<div class="form-group col-lg-4" style="display: none;">
+					<label for="name_product">Ten SP:</label>
+					<input type="text" name="name_product" id="name_product" value="<?=$product['title']?>" placeholder="Ten san pham...">
+				</div>
 				<div class="form-group col-lg-4">
 					<label for="chieucao">Chiều cao (cm):</label>
-					<input type="number" name="chieucao" id="chieucao" placeholder="Chiều cao...">
+					<input type="number" name="chieucao" id="chieucao" placeholder="Chiều cao..." required>
 				</div>
 				<div class="form-group col-lg-4">
 					<label for="cannang">Cân nặng (cm):</label>
-					<input type="number" name="cannang" id="cannang" placeholder="Cân nặng...">
+					<input type="number" name="cannang" id="cannang" placeholder="Cân nặng..." required>
 				</div>
 				<div class="form-group col-lg-4">
 					<label for="ngangvai">Ngang vai (cm):</label>
-					<input type="number" name="ngangvai" id="ngangvai" placeholder="Ngang vai...">
+					<input type="number" name="ngangvai" id="ngangvai" placeholder="Ngang vai..." required>
 				</div>
 				<div class="form-group col-lg-4">
 					<label for="vongnguc">Vòng ngực (cm):</label>
-					<input type="number" name="vongnguc" id="vongnguc" placeholder="Vòng ngực...">
+					<input type="number" name="vongnguc" id="vongnguc" placeholder="Vòng ngực..." required>
 				</div>
 				<div class="form-group col-lg-4">
 					<label for="vongeo">Vòng eo (cm):</label>
-					<input type="number" name="vongeo" id="vongeo" placeholder="Vòng eo...">
+					<input type="number" name="vongeo" id="vongeo" placeholder="Vòng eo..." required>
 				</div>
 				<div class="form-group col-lg-4">
 					<label for="vongco">Vòng cổ (cm):</label>
-					<input type="number" name="vongco" id="vongco" placeholder="Vòng cổ...">
+					<input type="number" name="vongco" id="vongco" placeholder="Vòng cổ..." required>
 				</div>
 			</div>
+            <input type="number" name="soluong" id="soluong" min="1" max="100" value="1" required>
 			<button type="submit" class="btn btn-primary" onclick="success()" style="text-align:center;"">Thêm vào giỏ</button>
 			</form>
     		<p><?=$product['content']?></p>
@@ -206,7 +226,15 @@ foreach ($categoryList as $item){
 
 		document.getElementById("price").innerHTML = format2(<?=$product['price']?>); 
         
-		// 
+		function exituser(){
+        var option = confirm('Bạn có chắc chắn muốn đăng xuất không?');
+            if(!option) return;
+            $.post('ajax.php',{
+                'action': 'delete'
+            },function(data){
+                location.href = "../admin/user/login.php";
+            })
+       }
 	</script>
 </body>
 </html>

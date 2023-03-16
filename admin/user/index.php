@@ -1,9 +1,8 @@
 <?php 
 require_once('../../db/dbhelper.php');
 require_once('../../common/utility.php');
-
-    session_start();
     ob_start();
+    session_start();
     if(!isset($_SESSION['role']) || ($_SESSION['role'] == 0))  header('location: login.php');
 
 ?>
@@ -22,6 +21,7 @@ require_once('../../common/utility.php');
 
 	<!-- Latest compiled JavaScript -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script src="../../common/action.js"></script>
 </head>
 <body>
     <div class="header">
@@ -30,10 +30,13 @@ require_once('../../common/utility.php');
                 <a class="nav-link" href="../category/">Quản Lý Danh Mục</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link " href="../product">Quản Lý Sản Phẩm</a>
+                <a class="nav-link " href="../product/">Quản Lý Sản Phẩm</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link active" href="#">Quản Lý Người Dùng</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="../order/">Quản Lý Đơn Hàng</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" onclick="exituser();" href="#">Thoát</a>
@@ -70,9 +73,10 @@ require_once('../../common/utility.php');
                             <th>Tên Tài Khoản</th>
                             <th>Tên Người Dùng</th>
                             <th>Địa Chỉ</th>
+                            <th>Số Điện Thoại</th>
                             <th>Email</th>
                             <th>Mật Khẩu</th>
-                            <th>Vai trò</th>
+                            <th>Vai Trò</th>
                             <th width="50px"></th>
                             <th width="50px"></th>
                         </tr>
@@ -118,6 +122,7 @@ foreach ($userList as $item){
         <td>'.$item['username'].'</td>
         <td>'.$item['name'].'</td>
         <td>'.$item['address'].'</td>
+        <td>'.$item['SDT'].'</td>
         <td>'.$item['email'].'</td>
         <td>'.$item['password'].'</td>
         <td>'.$item['role'].'</td>
@@ -125,7 +130,7 @@ foreach ($userList as $item){
             <a href="add.php?id='.$item['id'].'"><button class="btn btn-warning">Sửa</button></a>
         </td>
         <td>
-            <button class="btn btn-danger" onclick="deleteuser('.$item['id'].')">Xóa</button>
+            <button class="btn btn-danger" onclick="deleteUser('.$item['id'].')">Xóa</button>
         </td>
     </tr>';
 }
@@ -138,28 +143,6 @@ foreach ($userList as $item){
 		</div>
 	</div>
 
-    <script type="text/javascript">
-        function deleteuser(id){
-            var option = confirm('Bạn có chắc chắn muốn xóa danh mục này không?');
-            if(!option) return;
-            $.post('ajax.php',{
-                'id': id,
-                'action': 'delete'
-            },function(data){
-                location.reload();
-            })
-        }
-
-       function exituser(){
-        var option = confirm('Bạn có chắc chắn muốn đăng xuất không?');
-            if(!option) return;
-            $.post('ajax.php',{
-                'action': 'delete'
-            },function(data){
-                location.href = "login.php";
-            })
-       }
-  
 
         
     </script>
