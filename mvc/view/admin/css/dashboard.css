@@ -1,0 +1,48 @@
+.card-wrapper{
+    display: flex;
+    justify-content: space-around;
+}
+
+h2{
+    margin-top: 20px;
+}
+
+h5{
+    margin: 20px 0;
+}
+
+
+a.card-body.card-d{
+    color: #fff;
+}
+
+a.card-body.card-d:hover{
+    text-decoration: none;
+}
+
+a.card-body.card-d:hover{
+    color: #eeeff2;
+    filter: drop-shadow(2px 4px 6px #17171761);
+}
+
+.card{
+    filter: drop-shadow(2px 4px 2px #17171761);
+}
+
+.card1{
+    width: 23%;
+    background-color: #000e3d;
+}
+.card2{
+    width: 23%;
+    background-color: #3ebb9d;
+}
+.card3{
+    width: 23%;
+    background-color: #e0ca00;
+}
+.card4{
+    width: 23%;
+    background-color: #c50bac;
+}
+

@@ -1,0 +1,84 @@
+.form-box{
+    border: 5px dashed #c7c7c7d2;
+    margin: 30px 0;
+    padding: 30px 10px;
+}
+
+button#addcart{
+    text-align: center;
+    background-color: #ffd335;
+    border: 1px solid #ffc97a;
+    padding: 15px 40px;
+    border-radius: 30px;
+    margin-top: 20px;
+    width: 100%;
+    font-size: 20px;
+    color: #000;
+    font-weight: 700;
+}
+input#soluong{
+    text-align: center;
+    border-radius: 5px;
+    width: 40px;
+    background-color: #f0f0f0;
+}
+
+.buttons_added {
+    opacity:1;
+    display:inline-block;
+    display:-ms-inline-flexbox;
+    display:inline-flex;
+    white-space:nowrap;
+    vertical-align:top;
+    margin-left: 20px;
+}
+.is-form {
+    overflow:hidden;
+    position:relative;
+    background-color:#f9f9f9;
+    height:2.2rem;
+    width:1.9rem;
+    padding:0;
+    text-shadow:1px 1px 1px #fff;
+    border:1px solid #ddd;
+}
+.is-form:focus,.input-text:focus {
+    outline:none;
+}
+.is-form.minus {
+    border-radius:4px 0 0 4px;
+}
+.is-form.plus {
+    border-radius:0 4px 4px 0;
+}
+.input-qty {
+    background-color:#fff;
+    height:2.2rem;
+    text-align:center;
+    font-size:1rem;
+    display:inline-block;
+    vertical-align:top;
+    margin:0;
+    border-top:1px solid #ddd;
+    border-bottom:1px solid #ddd;
+    border-left:0;
+    border-right:0;
+    padding:0;
+}
+.input-qty::-webkit-outer-spin-button,.input-qty::-webkit-inner-spin-button {
+    -webkit-appearance:none;
+    margin:0;
+}
+
+h5#price{
+    font-weight: 600;
+    font-size: 24px;
+    background-color: #dbdbdb;
+    padding: 8px 15px;
+    color: #1b1b1b;
+}
+
+h5.sodo{
+    margin: 20px 0 0 0;
+    color: #2e2e2e;
+}

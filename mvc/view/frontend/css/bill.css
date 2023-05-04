@@ -1,0 +1,18 @@
+h5{
+    font-size: 18px;
+}
+
+.wrapper{
+    background: #ebebeb;
+    
+    border: 10px dashed;
+}
+
+.check-icon{
+    width: 50px;
+    margin: auto;    
+}
+
+.check-icon img{
+    width: 100%;    
+}
